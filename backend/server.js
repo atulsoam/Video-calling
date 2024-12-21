@@ -1,6 +1,8 @@
 const express = require("express");
 const http = require("http");
+const path  = require("path")
 const { Server } = require("socket.io");
+
 // const { v4: uuidv4 } = require('uuid');
 
 const app = express();
@@ -10,7 +12,10 @@ const io = new Server(server, {
 });
 
 // Serve static files (if using a frontend build)
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname,"../frontend/dist")));
+app.get("*",(req,res)=>{
+  res.sendFile("/frontend/dist/index.html")
+})
 
 const NameToSocket = new Map();
 const SocketToName = new Map();
